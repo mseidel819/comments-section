@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import JobData from "./data.json";
+import { Container } from "@mui/material";
+import { useEffect, useState } from "react";
+import Reply from "./components/reply/reply.component";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({});
+  const [comments, setComments] = useState({});
+
+  useEffect(() => {
+    setCurrentUser(JobData.currentUser);
+    setComments(JobData.comments);
+  }, []);
+
+  console.log(currentUser);
+  console.log(comments);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+    <Container maxWidth="md">
+      <Reply user={currentUser} />
+      <footer>
+        Challenge by &nbsp;
         <a
-          className="App-link"
-          href="https://reactjs.org"
+          href="https://www.frontendmentor.io?ref=challenge"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noreferrer"
         >
-          Learn React
+          Frontend Mentor
         </a>
-      </header>
-    </div>
+        . Coded by &nbsp;
+        <a href="https://seidelmatt.com/" target="_blank" rel="noreferrer">
+          Matt Seidel
+        </a>
+        .
+      </footer>
+    </Container>
   );
 }
 
