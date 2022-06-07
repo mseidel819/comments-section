@@ -15,6 +15,8 @@ export const SendButton = styled(Button)({
   fontWeight: "500",
   fontSize: "16px",
   lineHeight: "24px",
+  fontFamily: "Rubik",
+  fontStyle: "normal",
 
   "&:hover": {
     backgroundColor: "#C5C6EF",

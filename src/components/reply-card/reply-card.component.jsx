@@ -1,6 +1,6 @@
 import { Grid, TextField } from "@mui/material";
 import julio from "../../images/avatars/image-juliusomo.png";
-import { SendButton, StyledReplyCard } from "./reply.styles";
+import { SendButton, StyledReplyCard } from "./reply-card.styles";
 
 const Reply = ({ user }) => {
   return (

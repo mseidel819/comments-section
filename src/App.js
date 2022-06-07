@@ -1,12 +1,13 @@
 import "./App.css";
 import JobData from "./data.json";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import Reply from "./components/reply/reply.component";
+import Reply from "./components/reply-card/reply-card.component";
+import CommentCard from "./components/comment-card/comment-card.component";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
-  const [comments, setComments] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     setCurrentUser(JobData.currentUser);
@@ -17,7 +18,23 @@ function App() {
   console.log(comments);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ marginTop: "64px" }}>
+      {comments.map((user) => (
+        <>
+          <CommentCard user={user} key={user.id} />
+          {user.replies.length ? (
+            <Grid container>
+              <Grid item sm={1}></Grid>
+              <Grid item sm={11}>
+                {user.replies.map((reply) => (
+                  <CommentCard user={reply} key={reply.id} />
+                ))}
+              </Grid>
+            </Grid>
+          ) : null}
+        </>
+      ))}
+
       <Reply user={currentUser} />
       <footer>
         Challenge by &nbsp;

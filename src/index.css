@@ -23,6 +23,22 @@ h2 {
   color: #334253;
 }
 
+h3 {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  margin: 8px;
+  /* identical to box height */
+
+  text-align: center;
+
+  /* Moderate Blue */
+
+  color: #5357b6;
+}
+
 p {
   font-weight: 400;
   font-size: 16px;
