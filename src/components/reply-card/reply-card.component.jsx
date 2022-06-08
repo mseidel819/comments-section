@@ -1,8 +1,16 @@
 import { Grid, TextField } from "@mui/material";
+import { useState } from "react";
 import julio from "../../images/avatars/image-juliusomo.png";
 import { SendButton, StyledReplyCard } from "./reply-card.styles";
 
-const Reply = ({ user }) => {
+const Reply = ({ user, addHandler }) => {
+  const [textField, setTextField] = useState("");
+
+  const textFieldHandler = (e) => {
+    const searchFieldString = e.target.value;
+    setTextField(searchFieldString);
+  };
+
   return (
     <StyledReplyCard>
       <Grid container columnSpacing={2}>
@@ -14,11 +22,20 @@ const Reply = ({ user }) => {
             multiline
             fullWidth
             rows={3}
+            onChange={textFieldHandler}
             placeholder="Add a comment..."
+            value={textField}
           />
         </Grid>
         <Grid item sm={2}>
-          <SendButton>SEND</SendButton>
+          <SendButton
+            onClick={() => {
+              addHandler(textField, user);
+              setTextField("");
+            }}
+          >
+            SEND
+          </SendButton>
         </Grid>
       </Grid>
     </StyledReplyCard>

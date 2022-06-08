@@ -42,6 +42,16 @@ export const TimeSpan = styled("span")({
   lineHeight: "24px",
   color: "#67727E",
 });
+export const YouSpan = styled("span")({
+  fontWeight: "500",
+  fontSize: "13px",
+  lineHeight: "15px",
+  color: "white",
+  backgroundColor: "#5357B6",
+  borderRadius: "2px",
+  padding: "1px 6px",
+  marginRight: "16px",
+});
 
 export const ReplyButton = styled(Button)({
   fontWeight: "500",
@@ -55,5 +65,21 @@ export const ReplyButton = styled(Button)({
     color: "#C5C6EF",
     backgroundColor: "white",
     fill: "#C5C6EF",
+  },
+});
+
+export const DeleteButton = styled(Button)({
+  fontWeight: "500",
+  color: "#ED6368",
+  fontSize: "16px",
+  lineHeight: "24px",
+  fontFamily: "Rubik",
+  fontStyle: "normal",
+  textTransform: "none",
+
+  "&:hover": {
+    color: "#FFB8BB",
+    backgroundColor: "white",
+    // fill: "#C5C6EF",
   },
 });

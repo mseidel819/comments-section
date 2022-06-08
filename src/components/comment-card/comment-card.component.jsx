@@ -1,7 +1,8 @@
-import { Grid, Button, Card } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ReactComponent as Plus } from "../../images/icon-plus.svg";
 import { ReactComponent as Minus } from "../../images/icon-minus.svg";
 import { ReactComponent as Reply } from "../../images/icon-reply.svg";
+import { ReactComponent as Delete } from "../../images/icon-delete.svg";
 import julio from "../../images/avatars/image-juliusomo.png";
 import amyrobson from "../../images/avatars/image-amyrobson.png";
 import maxblagun from "../../images/avatars/image-maxblagun.png";
@@ -15,10 +16,13 @@ import {
   TimeSpan,
   ReplyButton,
   UpvoteCard,
+  DeleteButton,
+  YouSpan,
 } from "./comment-card.styles";
 
-const CommentCard = ({ user }) => {
-  console.log(user);
+const CommentCard = ({ user, currentUser, removeCommentHandler }) => {
+  // console.log(user);
+  // console.log(currentUser);
   return (
     <StyledCommentCard>
       <Grid container columnSpacing={1}>
@@ -39,15 +43,32 @@ const CommentCard = ({ user }) => {
             <Grid item container alignItems="center" xs={12} sm={10}>
               <img src={amyrobson} alt="user" />
               <UserSpan>{user.user.username}</UserSpan>
+              {user.user.username === currentUser.username && (
+                <YouSpan>you</YouSpan>
+              )}
               <TimeSpan>{user.createdAt}</TimeSpan>
             </Grid>
             <Grid item container justifyContent="end" xs={12} sm={2}>
-              <ReplyButton variant="text" startIcon={<Reply />}>
-                Reply
-              </ReplyButton>
+              {user.user.username === currentUser.username ? (
+                <DeleteButton
+                  onClick={() => removeCommentHandler(user.id)}
+                  variant="text"
+                  startIcon={<Delete />}
+                >
+                  Delete
+                </DeleteButton>
+              ) : (
+                <ReplyButton variant="text" startIcon={<Reply />}>
+                  Reply
+                </ReplyButton>
+              )}
             </Grid>
           </Grid>
-          <p>{user.content}</p>
+
+          <p>
+            {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
+            {user.content}
+          </p>
         </Grid>
       </Grid>
     </StyledCommentCard>
