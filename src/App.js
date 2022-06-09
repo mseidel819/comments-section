@@ -33,6 +33,46 @@ function App() {
     setComments(newComments);
   };
 
+  const increaseScoreReply = (replyId) => {
+    let targetComment = comments.find((comment) =>
+      comment.replies.find((reply) => reply.id === replyId)
+    );
+
+    targetComment = {
+      ...targetComment,
+      replies: targetComment.replies.map((comment) => {
+        return comment.id === replyId
+          ? { ...comment, score: comment.score + 1 }
+          : comment;
+      }),
+    };
+
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment,
+    ]);
+  };
+
+  const decreaseScoreReply = (replyId) => {
+    let targetComment = comments.find((comment) =>
+      comment.replies.find((reply) => reply.id === replyId)
+    );
+
+    targetComment = {
+      ...targetComment,
+      replies: targetComment.replies.map((comment) => {
+        return comment.id === replyId
+          ? { ...comment, score: comment.score - 1 }
+          : comment;
+      }),
+    };
+
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment,
+    ]);
+  };
+
   const addCommentHandler = (content, user) => {
     const date = new Date();
     const year = date.getFullYear();
@@ -103,8 +143,8 @@ function App() {
                       user={reply}
                       key={`reply${reply.id}`}
                       removeCommentHandler={removeReplyHandler}
-                      increaseScore={increaseScore}
-                      decreaseScore={decreaseScore}
+                      increaseScore={increaseScoreReply}
+                      decreaseScore={decreaseScoreReply}
                     />
                   ))}
                 </Grid>
