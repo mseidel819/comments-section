@@ -20,19 +20,29 @@ import {
   YouSpan,
 } from "./comment-card.styles";
 
-const CommentCard = ({ user, currentUser, removeCommentHandler }) => {
-  // console.log(user);
-  // console.log(currentUser);
+const CommentCard = ({
+  user,
+  currentUser,
+  removeCommentHandler,
+  increaseScore,
+  decreaseScore,
+}) => {
   return (
     <StyledCommentCard>
       <Grid container columnSpacing={1}>
         <UpvoteGrid item sm={1}>
           <UpvoteCard>
-            <StyledIconButton size="large">
+            <StyledIconButton
+              onClick={() => increaseScore(user.id)}
+              size="large"
+            >
               <Plus />
             </StyledIconButton>
             <h3>{user.score}</h3>
-            <StyledIconButton size="large">
+            <StyledIconButton
+              onClick={() => decreaseScore(user.id)}
+              size="large"
+            >
               <Minus />
             </StyledIconButton>
           </UpvoteCard>

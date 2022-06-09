@@ -15,8 +15,23 @@ function App() {
     setComments(JobData.comments);
   }, []);
 
-  // console.log(currentUser);
-  // console.log(comments);
+  const increaseScore = (commentId) => {
+    const newComments = comments.map((comment) => {
+      return comment.id === commentId
+        ? { ...comment, score: comment.score + 1 }
+        : comment;
+    });
+    setComments(newComments);
+  };
+  const decreaseScore = (commentId) => {
+    const newComments = comments.map((comment) => {
+      return comment.id === commentId
+        ? { ...comment, score: comment.score - 1 }
+        : comment;
+    });
+
+    setComments(newComments);
+  };
 
   const addCommentHandler = (content, user) => {
     const date = new Date();
@@ -65,31 +80,38 @@ function App() {
 
   return (
     <Container maxWidth="md" sx={{ marginTop: "64px" }}>
-      {comments.map((user) => (
-        <div key={user.id}>
-          <CommentCard
-            removeCommentHandler={removeCommentHandler}
-            currentUser={currentUser}
-            user={user}
-            // key={user.id}
-          />
-          {user.replies.length ? (
-            <Grid container>
-              <Grid item sm={1}></Grid>
-              <Grid item sm={11}>
-                {user.replies.map((reply) => (
-                  <CommentCard
-                    currentUser={currentUser}
-                    user={reply}
-                    key={`reply${reply.id}`}
-                    removeCommentHandler={removeReplyHandler}
-                  />
-                ))}
+      {comments
+        .sort((a, b) => {
+          return b.score - a.score;
+        })
+        .map((user) => (
+          <div key={user.id}>
+            <CommentCard
+              removeCommentHandler={removeCommentHandler}
+              currentUser={currentUser}
+              user={user}
+              increaseScore={increaseScore}
+              decreaseScore={decreaseScore}
+            />
+            {user.replies.length ? (
+              <Grid container>
+                <Grid item sm={1}></Grid>
+                <Grid item sm={11}>
+                  {user.replies.map((reply) => (
+                    <CommentCard
+                      currentUser={currentUser}
+                      user={reply}
+                      key={`reply${reply.id}`}
+                      removeCommentHandler={removeReplyHandler}
+                      increaseScore={increaseScore}
+                      decreaseScore={decreaseScore}
+                    />
+                  ))}
+                </Grid>
               </Grid>
-            </Grid>
-          ) : null}
-        </div>
-      ))}
+            ) : null}
+          </div>
+        ))}
 
       <Reply user={currentUser} addHandler={addCommentHandler} />
       <footer>
