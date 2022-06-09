@@ -47,25 +47,21 @@ function App() {
     setComments(filteredComments);
   };
 
-  // const removeReplyHandler = (replyId, replyTo) => {
-  //   console.log(replyTo);
-  //   console.log(comments);
+  const removeReplyHandler = (replyId) => {
+    let targetComment = comments.find((comment) =>
+      comment.replies.find((reply) => reply.id === replyId)
+    );
 
-  //   const targetComment = comments.filter((comment) => {
-  //     return comment.user.username === replyTo;
-  //   });
+    targetComment = {
+      ...targetComment,
+      replies: targetComment.replies.filter((reply) => reply.id !== replyId),
+    };
 
-  //   const removeTargetComment = comments.filter((comment) => {
-  //     return comment.id !== targetComment.id;
-  //   });
-  //   setComments(removeTargetComment);
-  //   console.log(targetComment);
-  // const filteredComment = targetComment.replies.filter((reply) => {
-  //   return reply.id !== replyId;
-  // });
-
-  // setComments([...comments, filteredComment]);
-  // };
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment,
+    ]);
+  };
 
   return (
     <Container maxWidth="md" sx={{ marginTop: "64px" }}>
@@ -85,7 +81,8 @@ function App() {
                   <CommentCard
                     currentUser={currentUser}
                     user={reply}
-                    key={reply.id}
+                    key={`reply${reply.id}`}
+                    removeCommentHandler={removeReplyHandler}
                   />
                 ))}
               </Grid>
