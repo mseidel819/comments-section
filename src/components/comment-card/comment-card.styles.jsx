@@ -1,31 +1,10 @@
-import { styled, Button, Card, Grid, IconButton } from "@mui/material";
+import { styled, Button, Card } from "@mui/material";
 
 export const StyledCommentCard = styled(Card)({
   padding: "24px",
   borderRadius: "8px",
   boxShadow: "none",
   marginBottom: "20px",
-});
-
-export const UpvoteGrid = styled(Grid)({});
-export const UpvoteCard = styled(Card)({
-  backgroundColor: "#F5F6FA",
-  borderRadius: "10px",
-  overflow: "hidden",
-  width: "40px",
-  boxShadow: "none",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-});
-
-export const StyledIconButton = styled(IconButton)({
-  borderRadius: "0px",
-  height: "35px",
-
-  "&:hover": {
-    backgroundColor: "#F5F6FA",
-  },
 });
 
 export const UserSpan = styled("span")({

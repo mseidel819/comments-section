@@ -13,11 +13,11 @@ const Reply = ({ user, addHandler }) => {
 
   return (
     <StyledReplyCard>
-      <Grid container columnSpacing={2}>
-        <Grid item sm={1}>
+      <Grid container rowSpacing={2} columnSpacing={2}>
+        <Grid item xs={0} sm={1} sx={{ display: { xs: "none", sm: "block" } }}>
           <img src={julio} alt="current user" />
         </Grid>
-        <Grid item sm={9}>
+        <Grid item xs={12} sm={9}>
           <TextField
             multiline
             fullWidth
@@ -27,7 +27,7 @@ const Reply = ({ user, addHandler }) => {
             value={textField}
           />
         </Grid>
-        <Grid item sm={2}>
+        <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <SendButton
             onClick={() => {
               addHandler(textField, user);
@@ -36,6 +36,28 @@ const Reply = ({ user, addHandler }) => {
           >
             SEND
           </SendButton>
+        </Grid>
+        <Grid
+          item
+          container
+          justifyContent="space-between"
+          xs={12}
+          sm={0}
+          sx={{ display: { xs: "flex", sm: "none" } }}
+        >
+          <Grid item xs={1}>
+            <img src={julio} alt="current user" />
+          </Grid>
+          <Grid item container justifyContent="end" xs={6}>
+            <SendButton
+              onClick={() => {
+                addHandler(textField, user);
+                setTextField("");
+              }}
+            >
+              SEND
+            </SendButton>
+          </Grid>
         </Grid>
       </Grid>
     </StyledReplyCard>
