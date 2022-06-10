@@ -3,7 +3,7 @@ import { useState } from "react";
 import julio from "../../images/avatars/image-juliusomo.png";
 import { SendButton, StyledReplyCard } from "./reply-card.styles";
 
-const Reply = ({ user, addHandler }) => {
+const Reply = ({ user, addHandler, sendReply, currentUser }) => {
   const [textField, setTextField] = useState("");
 
   const textFieldHandler = (e) => {
@@ -30,11 +30,15 @@ const Reply = ({ user, addHandler }) => {
         <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <SendButton
             onClick={() => {
-              addHandler(textField, user);
+              {
+                sendReply === "send"
+                  ? addHandler(textField, currentUser)
+                  : addHandler(textField, user);
+              }
               setTextField("");
             }}
           >
-            SEND
+            {sendReply}
           </SendButton>
         </Grid>
         <Grid
@@ -51,7 +55,7 @@ const Reply = ({ user, addHandler }) => {
           <Grid item container justifyContent="end" xs={6}>
             <SendButton
               onClick={() => {
-                addHandler(textField, user);
+                addHandler(textField, currentUser);
                 setTextField("");
               }}
             >

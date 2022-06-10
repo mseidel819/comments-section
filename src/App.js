@@ -10,6 +10,8 @@ function App() {
   const [comments, setComments] = useState([]);
   const [commentId, setCommentId] = useState(4);
 
+  // console.log(comments);
+
   useEffect(() => {
     setCurrentUser(JobData.currentUser);
     setComments(JobData.comments);
@@ -94,6 +96,38 @@ function App() {
     setCommentId(commentId + 1);
   };
 
+  const addReplyHandler = (content, user, currentUser) => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDay();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    // console.log(user, currentUser);
+
+    const newComment = {
+      content: content,
+      createdAt: `${month}/${day}/${year} at ${hour}:${minute}`,
+      id: commentId,
+      replyingTo: "user.username",
+      score: 0,
+      user: currentUser,
+    };
+    //issues HERE
+    const targetComment = comments.find((comment) => comment.id === user.id);
+    console.log(targetComment);
+    targetComment.replies.push(newComment);
+
+    console.log(
+      comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment
+    );
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment,
+    ]);
+  };
+
   const removeCommentHandler = (currentId) => {
     const filteredComments = comments.filter((comment) => {
       return comment.id !== currentId;
@@ -132,6 +166,8 @@ function App() {
               user={user}
               increaseScore={increaseScore}
               decreaseScore={decreaseScore}
+              addCommentHandler={addCommentHandler}
+              addReplyHandler={addReplyHandler}
             />
             {user.replies.length ? (
               <Grid container>
@@ -153,7 +189,11 @@ function App() {
           </div>
         ))}
 
-      <Reply user={currentUser} addHandler={addCommentHandler} />
+      <Reply
+        user={currentUser}
+        addHandler={addCommentHandler}
+        sendReply="Send"
+      />
       <footer>
         Challenge by &nbsp;
         <a
