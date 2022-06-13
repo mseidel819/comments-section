@@ -8,7 +8,7 @@ import CommentCard from "./components/comment-card/comment-card.component";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [comments, setComments] = useState([]);
-  const [commentId, setCommentId] = useState(4);
+  const [commentId, setCommentId] = useState(5);
 
   // console.log(comments);
 
@@ -109,11 +109,11 @@ function App() {
       content: content,
       createdAt: `${month}/${day}/${year} at ${hour}:${minute}`,
       id: commentId,
-      replyingTo: "user.username",
+      replyingTo: user.user.username,
       score: 0,
       user: currentUser,
     };
-    //issues HERE
+
     const targetComment = comments.find((comment) => comment.id === user.id);
     console.log(targetComment);
     targetComment.replies.push(newComment);
@@ -122,10 +122,12 @@ function App() {
       comments.filter((comment) => comment.id !== targetComment.id),
       targetComment
     );
+
     setComments([
       ...comments.filter((comment) => comment.id !== targetComment.id),
       targetComment,
     ]);
+    setCommentId(commentId + 1);
   };
 
   const removeCommentHandler = (currentId) => {

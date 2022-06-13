@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { useState } from "react";
 import { ReactComponent as ReplyIcon } from "../../images/icon-reply.svg";
 import { ReactComponent as Delete } from "../../images/icon-delete.svg";
@@ -50,8 +50,8 @@ const CommentCard = ({
               decreaseScore={decreaseScore}
             />
 
-            <Grid item sm={11}>
-              <Grid container justifyContent="space-between">
+            <Grid item container sm={11}>
+              <Grid item container justifyContent="space-between">
                 <Grid item container alignItems="center" xs={12} sm={10}>
                   <img src={userObj[user.user.username]} alt="user" />
                   <UserSpan>{user.user.username}</UserSpan>
@@ -87,11 +87,12 @@ const CommentCard = ({
                   )}
                 </Grid>
               </Grid>
-
-              <p>
-                {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
-                {user.content}
-              </p>
+              <Box sx={{ minWidth: "500px" }}>
+                <p>
+                  {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
+                  {user.content}
+                </p>
+              </Box>
             </Grid>
             <UpvoterMobile
               removeCommentHandler={removeCommentHandler}

@@ -33,7 +33,7 @@ const Reply = ({ user, addHandler, sendReply, currentUser }) => {
               {
                 sendReply === "send"
                   ? addHandler(textField, currentUser)
-                  : addHandler(textField, user);
+                  : addHandler(textField, user, currentUser);
               }
               setTextField("");
             }}
