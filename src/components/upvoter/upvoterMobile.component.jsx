@@ -18,6 +18,7 @@ const UpvoterMobile = ({
   decreaseScore,
   currentUser,
   removeCommentHandler,
+  replyToggler,
 }) => {
   return (
     <UpvoteGrid
@@ -63,7 +64,11 @@ const UpvoterMobile = ({
             Delete
           </DeleteButton>
         ) : (
-          <ReplyButton variant="text" startIcon={<Reply />}>
+          <ReplyButton
+            onClick={replyToggler}
+            variant="text"
+            startIcon={<Reply />}
+          >
             Reply
           </ReplyButton>
         )}

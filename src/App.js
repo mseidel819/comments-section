@@ -113,21 +113,21 @@ function App() {
       score: 0,
       user: currentUser,
     };
-
+    console.log(user);
+    console.log(comments);
     const targetComment = comments.find((comment) => comment.id === user.id);
-    console.log(targetComment);
-    targetComment.replies.push(newComment);
+    // console.log(targetComment);
+    if (targetComment?.replies) {
+      targetComment.replies.push(newComment);
+      setComments([
+        ...comments.filter((comment) => comment.id !== targetComment.id),
+        targetComment,
+      ]);
 
-    console.log(
-      comments.filter((comment) => comment.id !== targetComment.id),
-      targetComment
-    );
+      setCommentId(commentId + 1);
+    }
 
-    setComments([
-      ...comments.filter((comment) => comment.id !== targetComment.id),
-      targetComment,
-    ]);
-    setCommentId(commentId + 1);
+    ///add function for if its already a reply. if !targetComment.replies
   };
 
   const removeCommentHandler = (currentId) => {
@@ -153,7 +153,9 @@ function App() {
       targetComment,
     ]);
   };
-
+  ///////////////////////////////////////////////
+  /////JSX
+  ////////////////////////////////////////////////
   return (
     <Container maxWidth="md" sx={{ marginTop: "64px" }}>
       {comments
@@ -177,12 +179,13 @@ function App() {
                 <Grid item sm={11}>
                   {user.replies.map((reply) => (
                     <CommentCard
+                      removeCommentHandler={removeReplyHandler}
                       currentUser={currentUser}
                       user={reply}
-                      key={`reply${reply.id}`}
-                      removeCommentHandler={removeReplyHandler}
                       increaseScore={increaseScoreReply}
                       decreaseScore={decreaseScoreReply}
+                      addReplyHandler={addReplyHandler}
+                      key={`reply${reply.id}`}
                     />
                   ))}
                 </Grid>

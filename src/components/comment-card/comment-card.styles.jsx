@@ -1,4 +1,4 @@
-import { styled, Button, Card } from "@mui/material";
+import { styled, Button, Card, Box } from "@mui/material";
 
 export const StyledCommentCard = styled(Card)({
   padding: "24px",
@@ -60,5 +60,13 @@ export const DeleteButton = styled(Button)({
     color: "#FFB8BB",
     backgroundColor: "white",
     // fill: "#C5C6EF",
+  },
+});
+
+export const StyledTextBox = styled(Box)({
+  minWidth: "500px",
+
+  "@media (max-width:600px)": {
+    minWidth: "100px",
   },
 });

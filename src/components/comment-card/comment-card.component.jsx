@@ -17,6 +17,7 @@ import {
   ReplyButton,
   DeleteButton,
   YouSpan,
+  StyledTextBox,
 } from "./comment-card.styles";
 
 const CommentCard = ({
@@ -87,12 +88,12 @@ const CommentCard = ({
                   )}
                 </Grid>
               </Grid>
-              <Box sx={{ minWidth: "500px" }}>
+              <StyledTextBox>
                 <p>
                   {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
                   {user.content}
                 </p>
-              </Box>
+              </StyledTextBox>
             </Grid>
             <UpvoterMobile
               removeCommentHandler={removeCommentHandler}
@@ -100,6 +101,7 @@ const CommentCard = ({
               increaseScore={increaseScore}
               decreaseScore={decreaseScore}
               currentUser={currentUser}
+              replyToggler={replyToggler}
             />
           </Grid>
         </StyledCommentCard>

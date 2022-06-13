@@ -55,11 +55,15 @@ const Reply = ({ user, addHandler, sendReply, currentUser }) => {
           <Grid item container justifyContent="end" xs={6}>
             <SendButton
               onClick={() => {
-                addHandler(textField, currentUser);
+                {
+                  sendReply === "send"
+                    ? addHandler(textField, currentUser)
+                    : addHandler(textField, user, currentUser);
+                }
                 setTextField("");
               }}
             >
-              SEND
+              {sendReply}
             </SendButton>
           </Grid>
         </Grid>
