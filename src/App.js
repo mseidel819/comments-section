@@ -10,8 +10,6 @@ function App() {
   const [comments, setComments] = useState([]);
   const [commentId, setCommentId] = useState(5);
 
-  // console.log(comments);
-
   useEffect(() => {
     setCurrentUser(JobData.currentUser);
     setComments(JobData.comments);
@@ -103,7 +101,6 @@ function App() {
     const day = date.getDay();
     const hour = date.getHours();
     const minute = date.getMinutes();
-    // console.log(user, currentUser);
 
     const newComment = {
       content: content,
@@ -113,11 +110,9 @@ function App() {
       score: 0,
       user: currentUser,
     };
-    console.log(user);
-    console.log(comments);
-    const targetComment = comments.find((comment) => comment.id === user.id);
-    // console.log(targetComment);
-    if (targetComment?.replies) {
+
+    if (user.replies) {
+      const targetComment = comments.find((comment) => comment.id === user.id);
       targetComment.replies.push(newComment);
       setComments([
         ...comments.filter((comment) => comment.id !== targetComment.id),
@@ -128,6 +123,21 @@ function App() {
     }
 
     ///add function for if its already a reply. if !targetComment.replies
+    if (user.replyingTo) {
+      let targetComment = comments.find((comment) =>
+        comment.replies.find((reply) => reply.id === user.id)
+      );
+
+      targetComment = {
+        ...targetComment,
+        replies: [...targetComment.replies, newComment],
+      };
+
+      setComments([
+        ...comments.filter((comment) => comment.id !== targetComment.id),
+        targetComment,
+      ]);
+    }
   };
 
   const removeCommentHandler = (currentId) => {
