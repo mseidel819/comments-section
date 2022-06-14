@@ -63,6 +63,24 @@ export const DeleteButton = styled(Button)({
   },
 });
 
+export const SendButton = styled(Button)({
+  backgroundColor: "#5357B6",
+  padding: "12px 20px",
+  borderRadius: "8px",
+  color: "white",
+  textTransform: "uppercase",
+  fontWeight: "500",
+  fontSize: "16px",
+  lineHeight: "24px",
+  fontFamily: "Rubik",
+  fontStyle: "normal",
+  marginTop: "16px",
+
+  "&:hover": {
+    backgroundColor: "#C5C6EF",
+  },
+});
+
 export const StyledTextBox = styled(Box)({
   minWidth: "500px",
 

@@ -15,6 +15,7 @@ function App() {
     setComments(JobData.comments);
   }, []);
 
+  ///////
   const increaseScore = (commentId) => {
     const newComments = comments.map((comment) => {
       return comment.id === commentId
@@ -23,6 +24,8 @@ function App() {
     });
     setComments(newComments);
   };
+
+  ////////
   const decreaseScore = (commentId) => {
     const newComments = comments.map((comment) => {
       return comment.id === commentId
@@ -33,6 +36,7 @@ function App() {
     setComments(newComments);
   };
 
+  /////////
   const increaseScoreReply = (replyId) => {
     let targetComment = comments.find((comment) =>
       comment.replies.find((reply) => reply.id === replyId)
@@ -53,6 +57,7 @@ function App() {
     ]);
   };
 
+  ////////////
   const decreaseScoreReply = (replyId) => {
     let targetComment = comments.find((comment) =>
       comment.replies.find((reply) => reply.id === replyId)
@@ -73,6 +78,7 @@ function App() {
     ]);
   };
 
+  //////////
   const addCommentHandler = (content, user) => {
     const date = new Date();
     const year = date.getFullYear();
@@ -94,6 +100,7 @@ function App() {
     setCommentId(commentId + 1);
   };
 
+  //////////////
   const addReplyHandler = (content, user, currentUser) => {
     const date = new Date();
     const year = date.getFullYear();
@@ -140,6 +147,7 @@ function App() {
     }
   };
 
+  ////////////
   const removeCommentHandler = (currentId) => {
     const filteredComments = comments.filter((comment) => {
       return comment.id !== currentId;
@@ -148,6 +156,7 @@ function App() {
     setComments(filteredComments);
   };
 
+  /////////////
   const removeReplyHandler = (replyId) => {
     let targetComment = comments.find((comment) =>
       comment.replies.find((reply) => reply.id === replyId)
@@ -162,6 +171,56 @@ function App() {
       ...comments.filter((comment) => comment.id !== targetComment.id),
       targetComment,
     ]);
+  };
+
+  const editCommentHandler = (content, user) => {
+    // console.log(user);
+    const newComment = {
+      ...user,
+      content: content,
+    };
+
+    const targetComment = comments.find((comment) => comment.id === user.id);
+
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      newComment,
+    ]);
+  };
+
+  ////working here to remove old reply and replace it with the new one
+  const editReplyHandler = (content, user, currentUser) => {
+    const newComment = {
+      ...user,
+      content: content,
+    };
+
+    if (user.replies) {
+      const targetComment = comments.find((comment) => comment.id === user.id);
+      console.log(targetComment);
+      setComments([
+        ...comments.filter((comment) => comment.id !== targetComment.id),
+        newComment,
+      ]);
+    }
+
+    if (user.replyingTo) {
+      let targetComment = comments.find((comment) =>
+        comment.replies.find((reply) => reply.id === user.id)
+      );
+      console.log(targetComment);
+
+      targetComment = {
+        ...targetComment,
+        replies: targetComment.replies.filter((reply) => reply.id !== user.id),
+      };
+
+      console.log(newComment);
+      setComments([
+        ...comments.filter((comment) => comment.id !== targetComment.id),
+        newComment,
+      ]);
+    }
   };
   ///////////////////////////////////////////////
   /////JSX
@@ -182,6 +241,9 @@ function App() {
               decreaseScore={decreaseScore}
               addCommentHandler={addCommentHandler}
               addReplyHandler={addReplyHandler}
+              editCommentHandler={editCommentHandler}
+              editReplyHandler={editReplyHandler}
+              mainOrSub="main"
             />
             {user.replies.length ? (
               <Grid container>
@@ -194,7 +256,10 @@ function App() {
                       user={reply}
                       increaseScore={increaseScoreReply}
                       decreaseScore={decreaseScoreReply}
+                      addCommentHandler={addCommentHandler}
                       addReplyHandler={addReplyHandler}
+                      editReplyHandler={editReplyHandler}
+                      mainOrSub="sub"
                       key={`reply${reply.id}`}
                     />
                   ))}

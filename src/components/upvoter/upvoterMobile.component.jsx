@@ -11,6 +11,7 @@ import { ReactComponent as Plus } from "../../images/icon-plus.svg";
 import { ReactComponent as Minus } from "../../images/icon-minus.svg";
 import { ReactComponent as Reply } from "../../images/icon-reply.svg";
 import { ReactComponent as Delete } from "../../images/icon-delete.svg";
+import { ReactComponent as EditIcon } from "../../images/icon-edit.svg";
 
 const UpvoterMobile = ({
   user,
@@ -54,15 +55,25 @@ const UpvoterMobile = ({
           </Grid>
         </UpvoteCard>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item container xs={8} justifyContent="flex-end">
         {user.user.username === currentUser.username ? (
-          <DeleteButton
-            onClick={() => removeCommentHandler(user.id)}
-            variant="text"
-            startIcon={<Delete />}
-          >
-            Delete
-          </DeleteButton>
+          <>
+            <Grid item container xs={6} justifyContent="flex-end">
+              <DeleteButton
+                onClick={() => removeCommentHandler(user.id)}
+                variant="text"
+                startIcon={<Delete />}
+              >
+                Delete
+              </DeleteButton>
+            </Grid>
+            <Grid item container xs={4} justifyContent="flex-end">
+              {" "}
+              <ReplyButton variant="text" startIcon={<EditIcon />}>
+                Edit
+              </ReplyButton>
+            </Grid>
+          </>
         ) : (
           <ReplyButton
             onClick={replyToggler}

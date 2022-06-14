@@ -1,6 +1,7 @@
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, TextField } from "@mui/material";
 import { useState } from "react";
 import { ReactComponent as ReplyIcon } from "../../images/icon-reply.svg";
+import { ReactComponent as EditIcon } from "../../images/icon-edit.svg";
 import { ReactComponent as Delete } from "../../images/icon-delete.svg";
 import juliusomo from "../../images/avatars/image-juliusomo.png";
 import amyrobson from "../../images/avatars/image-amyrobson.png";
@@ -18,6 +19,7 @@ import {
   DeleteButton,
   YouSpan,
   StyledTextBox,
+  SendButton,
 } from "./comment-card.styles";
 
 const CommentCard = ({
@@ -28,10 +30,22 @@ const CommentCard = ({
   decreaseScore,
   addCommentHandler,
   addReplyHandler,
+  editCommentHandler,
+  editReplyHandler,
+  mainOrSub,
 }) => {
   const [replyActive, setReplyActive] = useState(false);
+  const [editActive, setEditActive] = useState(false);
+  const [editField, setEditField] = useState(user.content);
+
+  const editFieldHandler = (e) => {
+    const searchFieldString = e.target.value;
+    setEditField(searchFieldString);
+  };
 
   const replyToggler = () => setReplyActive(!replyActive);
+
+  const editToggler = () => setEditActive(!editActive);
 
   const userObj = {
     juliusomo: juliusomo,
@@ -53,7 +67,7 @@ const CommentCard = ({
 
             <Grid item container sm={11}>
               <Grid item container justifyContent="space-between">
-                <Grid item container alignItems="center" xs={12} sm={10}>
+                <Grid item container alignItems="center" xs={12} sm={8.5}>
                   <img src={userObj[user.user.username]} alt="user" />
                   <UserSpan>{user.user.username}</UserSpan>
                   {user.user.username === currentUser.username && (
@@ -67,16 +81,29 @@ const CommentCard = ({
                   justifyContent="end"
                   sx={{ display: { xs: "none", sm: "flex" } }}
                   xs={0}
-                  sm={2}
+                  sm={3.5}
                 >
                   {user.user.username === currentUser.username ? (
-                    <DeleteButton
-                      onClick={() => removeCommentHandler(user.id)}
-                      variant="text"
-                      startIcon={<Delete />}
-                    >
-                      Delete
-                    </DeleteButton>
+                    <>
+                      <Grid item sm={6}>
+                        <DeleteButton
+                          onClick={() => removeCommentHandler(user.id)}
+                          variant="text"
+                          startIcon={<Delete />}
+                        >
+                          Delete
+                        </DeleteButton>
+                      </Grid>
+                      <Grid item sm={4}>
+                        <ReplyButton
+                          onClick={editToggler}
+                          variant="text"
+                          startIcon={<EditIcon />}
+                        >
+                          Edit
+                        </ReplyButton>
+                      </Grid>
+                    </>
                   ) : (
                     <ReplyButton
                       onClick={replyToggler}
@@ -88,12 +115,42 @@ const CommentCard = ({
                   )}
                 </Grid>
               </Grid>
-              <StyledTextBox>
-                <p>
-                  {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
-                  {user.content}
-                </p>
-              </StyledTextBox>
+
+              {editActive ? (
+                <Grid item container justifyContent="flex-end" xs={12}>
+                  <TextField
+                    multiline
+                    fullWidth
+                    rows={3}
+                    onChange={editFieldHandler}
+                    defaultValue={user.content}
+                    // value={editField}
+                  />
+                  <SendButton
+                    onClick={() => {
+                      {
+                        if (mainOrSub === "main") {
+                          editCommentHandler(editField, user);
+                          editToggler();
+                        }
+                        if (mainOrSub === "sub") {
+                          editReplyHandler(editField, user, currentUser);
+                          editToggler();
+                        }
+                      }
+                    }}
+                  >
+                    Update
+                  </SendButton>
+                </Grid>
+              ) : (
+                <StyledTextBox>
+                  <p>
+                    {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
+                    {user.content}
+                  </p>
+                </StyledTextBox>
+              )}
             </Grid>
             <UpvoterMobile
               removeCommentHandler={removeCommentHandler}
