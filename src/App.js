@@ -172,7 +172,7 @@ function App() {
       targetComment,
     ]);
   };
-
+  /////////////////
   const editCommentHandler = (content, user) => {
     // console.log(user);
     const newComment = {
@@ -187,40 +187,34 @@ function App() {
       newComment,
     ]);
   };
-
+  /////////////////
   ////working here to remove old reply and replace it with the new one
   const editReplyHandler = (content, user, currentUser) => {
     const newComment = {
       ...user,
       content: content,
     };
+    console.log(user);
+    console.log(newComment);
 
-    if (user.replies) {
-      const targetComment = comments.find((comment) => comment.id === user.id);
-      console.log(targetComment);
-      setComments([
-        ...comments.filter((comment) => comment.id !== targetComment.id),
+    // if (user.replyingTo) {
+    let targetComment = comments.find((comment) =>
+      comment.replies.find((reply) => reply.id === user.id)
+    );
+
+    targetComment = {
+      ...targetComment,
+      replies: [
+        ...targetComment.replies.filter((reply) => reply.id !== user.id),
         newComment,
-      ]);
-    }
+      ],
+    };
 
-    if (user.replyingTo) {
-      let targetComment = comments.find((comment) =>
-        comment.replies.find((reply) => reply.id === user.id)
-      );
-      console.log(targetComment);
-
-      targetComment = {
-        ...targetComment,
-        replies: targetComment.replies.filter((reply) => reply.id !== user.id),
-      };
-
-      console.log(newComment);
-      setComments([
-        ...comments.filter((comment) => comment.id !== targetComment.id),
-        newComment,
-      ]);
-    }
+    setComments([
+      ...comments.filter((comment) => comment.id !== targetComment.id),
+      targetComment,
+    ]);
+    // }
   };
   ///////////////////////////////////////////////
   /////JSX
@@ -249,20 +243,24 @@ function App() {
               <Grid container>
                 <Grid item sm={1}></Grid>
                 <Grid item sm={11}>
-                  {user.replies.map((reply) => (
-                    <CommentCard
-                      removeCommentHandler={removeReplyHandler}
-                      currentUser={currentUser}
-                      user={reply}
-                      increaseScore={increaseScoreReply}
-                      decreaseScore={decreaseScoreReply}
-                      addCommentHandler={addCommentHandler}
-                      addReplyHandler={addReplyHandler}
-                      editReplyHandler={editReplyHandler}
-                      mainOrSub="sub"
-                      key={`reply${reply.id}`}
-                    />
-                  ))}
+                  {user.replies
+                    .sort((a, b) => {
+                      return a.id - b.id;
+                    })
+                    .map((reply) => (
+                      <CommentCard
+                        removeCommentHandler={removeReplyHandler}
+                        currentUser={currentUser}
+                        user={reply}
+                        increaseScore={increaseScoreReply}
+                        decreaseScore={decreaseScoreReply}
+                        addCommentHandler={addCommentHandler}
+                        addReplyHandler={addReplyHandler}
+                        editReplyHandler={editReplyHandler}
+                        mainOrSub="sub"
+                        key={`reply${reply.id}`}
+                      />
+                    ))}
                 </Grid>
               </Grid>
             ) : null}

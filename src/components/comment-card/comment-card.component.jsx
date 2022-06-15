@@ -170,6 +170,7 @@ const CommentCard = ({
             user={user}
             addHandler={addReplyHandler}
             sendReply="Reply"
+            replyToggler={replyToggler}
           />
         </Grid>
       )}
