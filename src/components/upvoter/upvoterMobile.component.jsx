@@ -20,6 +20,7 @@ const UpvoterMobile = ({
   currentUser,
   removeCommentHandler,
   replyToggler,
+  editToggler,
 }) => {
   return (
     <UpvoteGrid
@@ -68,8 +69,11 @@ const UpvoterMobile = ({
               </DeleteButton>
             </Grid>
             <Grid item container xs={4} justifyContent="flex-end">
-              {" "}
-              <ReplyButton variant="text" startIcon={<EditIcon />}>
+              <ReplyButton
+                onClick={editToggler}
+                variant="text"
+                startIcon={<EditIcon />}
+              >
                 Edit
               </ReplyButton>
             </Grid>

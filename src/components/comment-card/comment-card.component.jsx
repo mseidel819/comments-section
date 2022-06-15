@@ -1,4 +1,4 @@
-import { Grid, Box, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { ReactComponent as ReplyIcon } from "../../images/icon-reply.svg";
 import { ReactComponent as EditIcon } from "../../images/icon-edit.svg";
@@ -28,7 +28,6 @@ const CommentCard = ({
   removeCommentHandler,
   increaseScore,
   decreaseScore,
-  addCommentHandler,
   addReplyHandler,
   editCommentHandler,
   editReplyHandler,
@@ -124,7 +123,6 @@ const CommentCard = ({
                     rows={3}
                     onChange={editFieldHandler}
                     defaultValue={user.content}
-                    // value={editField}
                   />
                   <SendButton
                     onClick={() => {
@@ -159,6 +157,7 @@ const CommentCard = ({
               decreaseScore={decreaseScore}
               currentUser={currentUser}
               replyToggler={replyToggler}
+              editToggler={editToggler}
             />
           </Grid>
         </StyledCommentCard>

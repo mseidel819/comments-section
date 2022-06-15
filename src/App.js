@@ -1,4 +1,3 @@
-import "./App.css";
 import JobData from "./data.json";
 import { Container, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -174,7 +173,6 @@ function App() {
   };
   /////////////////
   const editCommentHandler = (content, user) => {
-    // console.log(user);
     const newComment = {
       ...user,
       content: content,
@@ -188,16 +186,12 @@ function App() {
     ]);
   };
   /////////////////
-  ////working here to remove old reply and replace it with the new one
   const editReplyHandler = (content, user, currentUser) => {
     const newComment = {
       ...user,
       content: content,
     };
-    console.log(user);
-    console.log(newComment);
 
-    // if (user.replyingTo) {
     let targetComment = comments.find((comment) =>
       comment.replies.find((reply) => reply.id === user.id)
     );
@@ -214,7 +208,6 @@ function App() {
       ...comments.filter((comment) => comment.id !== targetComment.id),
       targetComment,
     ]);
-    // }
   };
   ///////////////////////////////////////////////
   /////JSX
@@ -241,7 +234,14 @@ function App() {
             />
             {user.replies.length ? (
               <Grid container>
-                <Grid item sm={1}></Grid>
+                <Grid
+                  item
+                  sm={1}
+                  sx={{
+                    borderLeft: "2px solid #E9EBF0",
+                    transform: "translate(45px, -10px)",
+                  }}
+                ></Grid>
                 <Grid item sm={11}>
                   {user.replies
                     .sort((a, b) => {
@@ -292,3 +292,6 @@ function App() {
 }
 
 export default App;
+
+///things: svg hover colors
+///delete modal confirm

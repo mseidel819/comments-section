@@ -52,6 +52,7 @@ const Reply = ({ user, addHandler, sendReply, currentUser, replyToggler }) => {
             <SendButton
               onClick={() => {
                 addHandler(textField, user, currentUser);
+
                 replyToggler();
               }}
             >
