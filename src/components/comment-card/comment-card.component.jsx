@@ -107,6 +107,7 @@ const CommentCard = ({
                       </Grid>
                       <Grid item sm={4}>
                         <ReplyButton
+                          aria-label="edit"
                           onClick={editToggler}
                           variant="text"
                           startIcon={<EditIcon />}
@@ -117,6 +118,7 @@ const CommentCard = ({
                     </>
                   ) : (
                     <ReplyButton
+                      aria-label="reply"
                       onClick={replyToggler}
                       variant="text"
                       startIcon={<ReplyIcon />}
@@ -137,6 +139,7 @@ const CommentCard = ({
                     defaultValue={user.content}
                   />
                   <SendButton
+                    aria-label="update"
                     onClick={() => {
                       if (mainOrSub === "main") {
                         editCommentHandler(editField, user);

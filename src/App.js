@@ -224,7 +224,7 @@ function App() {
   ////////////////////////////////////////////////
   return (
     <>
-      <Container maxWidth="md" sx={{ marginTop: "64px" }}>
+      <Container role="main" maxWidth="md" sx={{ marginTop: "64px" }}>
         {comments
           .sort((a, b) => {
             return b.score - a.score;
@@ -285,7 +285,7 @@ function App() {
           addHandler={addCommentHandler}
           sendReply="Send"
         />
-        <footer>
+        {/* <footer>
           Challenge by &nbsp;
           <a
             href="https://www.frontendmentor.io?ref=challenge"
@@ -299,7 +299,7 @@ function App() {
             Matt Seidel
           </a>
           .
-        </footer>
+        </footer> */}
       </Container>
       <Modal
         open={modalOpen}
@@ -318,12 +318,13 @@ function App() {
 
           <Grid container columnSpacing={2}>
             <Grid item container justifyContent="center" xs={6}>
-              <ModalCancelButton onClick={modalToggler}>
+              <ModalCancelButton aria-label="cancel" onClick={modalToggler}>
                 No, cancel
               </ModalCancelButton>
             </Grid>
             <Grid item container justifyContent="center" xs={6}>
               <ModalDeleteButton
+                aria-label="delete"
                 onClick={() => {
                   replyTo
                     ? removeReplyHandler(deleteId)
@@ -337,6 +338,21 @@ function App() {
           </Grid>
         </ModalBox>
       </Modal>
+      <footer>
+        Challenge by &nbsp;
+        <a
+          href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Frontend Mentor
+        </a>
+        . Coded by &nbsp;
+        <a href="https://seidelmatt.com/" target="_blank" rel="noreferrer">
+          Matt Seidel
+        </a>
+        .
+      </footer>
     </>
   );
 }

@@ -37,6 +37,7 @@ const UpvoterMobile = ({
           <Grid container>
             <Grid item xs={4}>
               <StyledIconButton
+                aria-label="upvote"
                 onClick={() => increaseScore(user.id)}
                 size="large"
               >
@@ -48,6 +49,7 @@ const UpvoterMobile = ({
             </Grid>
             <Grid item xs={4}>
               <StyledIconButton
+                aria-label="downvote"
                 onClick={() => decreaseScore(user.id)}
                 size="large"
               >
@@ -69,6 +71,7 @@ const UpvoterMobile = ({
                 Delete
               </DeleteButton> */}
               <DeleteButton
+                aria-label="delete"
                 onClick={() => {
                   modalToggler(user.id, user.replyingTo);
                 }}
@@ -80,6 +83,7 @@ const UpvoterMobile = ({
             </Grid>
             <Grid item container xs={4} justifyContent="flex-end">
               <ReplyButton
+                aria-label="edit"
                 onClick={editToggler}
                 variant="text"
                 startIcon={<EditIcon />}
@@ -90,6 +94,7 @@ const UpvoterMobile = ({
           </>
         ) : (
           <ReplyButton
+            aria-label="reply"
             onClick={replyToggler}
             variant="text"
             startIcon={<Reply />}

@@ -29,6 +29,7 @@ const Reply = ({ user, addHandler, sendReply, currentUser, replyToggler }) => {
         </Grid>
         <Grid item xs={0} sm={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <SendButton
+            aria-label="send"
             onClick={() => {
               addHandler(textField, user, currentUser);
               setTextField("");
@@ -53,6 +54,7 @@ const Reply = ({ user, addHandler, sendReply, currentUser, replyToggler }) => {
           </Grid>
           <Grid item container justifyContent="end" xs={6}>
             <SendButton
+              aria-label="send"
               onClick={() => {
                 addHandler(textField, user, currentUser);
                 setTextField("");
