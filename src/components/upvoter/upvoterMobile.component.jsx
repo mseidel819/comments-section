@@ -18,7 +18,8 @@ const UpvoterMobile = ({
   increaseScore,
   decreaseScore,
   currentUser,
-  removeCommentHandler,
+  // removeCommentHandler,
+  modalToggler,
   replyToggler,
   editToggler,
 }) => {
@@ -60,8 +61,17 @@ const UpvoterMobile = ({
         {user.user.username === currentUser.username ? (
           <>
             <Grid item container xs={6} justifyContent="flex-end">
-              <DeleteButton
+              {/* <DeleteButton
                 onClick={() => removeCommentHandler(user.id)}
+                variant="text"
+                startIcon={<Delete />}
+              >
+                Delete
+              </DeleteButton> */}
+              <DeleteButton
+                onClick={() => {
+                  modalToggler(user.id, user.replyingTo);
+                }}
                 variant="text"
                 startIcon={<Delete />}
               >

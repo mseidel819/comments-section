@@ -25,13 +25,14 @@ import {
 const CommentCard = ({
   user,
   currentUser,
-  removeCommentHandler,
+  // removeCommentHandler,
   increaseScore,
   decreaseScore,
   addReplyHandler,
   editCommentHandler,
   editReplyHandler,
   mainOrSub,
+  modalToggler,
 }) => {
   const [replyActive, setReplyActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
@@ -85,8 +86,17 @@ const CommentCard = ({
                   {user.user.username === currentUser.username ? (
                     <>
                       <Grid item sm={6}>
-                        <DeleteButton
+                        {/* <DeleteButton
                           onClick={() => removeCommentHandler(user.id)}
+                          variant="text"
+                          startIcon={<Delete />}
+                        >
+                          Delete
+                        </DeleteButton> */}
+                        <DeleteButton
+                          onClick={() => {
+                            modalToggler(user.id, user.replyingTo);
+                          }}
                           variant="text"
                           startIcon={<Delete />}
                         >
@@ -126,15 +136,13 @@ const CommentCard = ({
                   />
                   <SendButton
                     onClick={() => {
-                      {
-                        if (mainOrSub === "main") {
-                          editCommentHandler(editField, user);
-                          editToggler();
-                        }
-                        if (mainOrSub === "sub") {
-                          editReplyHandler(editField, user, currentUser);
-                          editToggler();
-                        }
+                      if (mainOrSub === "main") {
+                        editCommentHandler(editField, user);
+                        editToggler();
+                      }
+                      if (mainOrSub === "sub") {
+                        editReplyHandler(editField, user, currentUser);
+                        editToggler();
                       }
                     }}
                   >
@@ -151,13 +159,14 @@ const CommentCard = ({
               )}
             </Grid>
             <UpvoterMobile
-              removeCommentHandler={removeCommentHandler}
+              // removeCommentHandler={removeCommentHandler}
               user={user}
               increaseScore={increaseScore}
               decreaseScore={decreaseScore}
               currentUser={currentUser}
               replyToggler={replyToggler}
               editToggler={editToggler}
+              modalToggler={modalToggler}
             />
           </Grid>
         </StyledCommentCard>

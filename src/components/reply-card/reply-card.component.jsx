@@ -31,7 +31,10 @@ const Reply = ({ user, addHandler, sendReply, currentUser, replyToggler }) => {
           <SendButton
             onClick={() => {
               addHandler(textField, user, currentUser);
-              replyToggler();
+              setTextField("");
+              if (sendReply === "Reply") {
+                replyToggler();
+              }
             }}
           >
             {sendReply}
@@ -52,8 +55,10 @@ const Reply = ({ user, addHandler, sendReply, currentUser, replyToggler }) => {
             <SendButton
               onClick={() => {
                 addHandler(textField, user, currentUser);
-
-                replyToggler();
+                setTextField("");
+                if (sendReply === "Reply") {
+                  replyToggler();
+                }
               }}
             >
               {sendReply}

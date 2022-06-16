@@ -1,5 +1,6 @@
 import JobData from "./data.json";
-import { Container, Grid } from "@mui/material";
+import { ModalBox, ModalCancelButton, ModalDeleteButton } from "./App.styles";
+import { Container, Grid, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
 import Reply from "./components/reply-card/reply-card.component";
 import CommentCard from "./components/comment-card/comment-card.component";
@@ -8,6 +9,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [comments, setComments] = useState([]);
   const [commentId, setCommentId] = useState(5);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(undefined);
+  const [replyTo, setReplyTo] = useState("");
+
+  const modalToggler = (id, replyingTo) => {
+    setModalOpen(!modalOpen);
+    setDeleteId(id);
+    setReplyTo(replyingTo);
+  };
 
   useEffect(() => {
     setCurrentUser(JobData.currentUser);
@@ -213,81 +223,121 @@ function App() {
   /////JSX
   ////////////////////////////////////////////////
   return (
-    <Container maxWidth="md" sx={{ marginTop: "64px" }}>
-      {comments
-        .sort((a, b) => {
-          return b.score - a.score;
-        })
-        .map((user) => (
-          <div key={user.id}>
-            <CommentCard
-              removeCommentHandler={removeCommentHandler}
-              currentUser={currentUser}
-              user={user}
-              increaseScore={increaseScore}
-              decreaseScore={decreaseScore}
-              addCommentHandler={addCommentHandler}
-              addReplyHandler={addReplyHandler}
-              editCommentHandler={editCommentHandler}
-              editReplyHandler={editReplyHandler}
-              mainOrSub="main"
-            />
-            {user.replies.length ? (
-              <Grid container>
-                <Grid
-                  item
-                  sm={1}
-                  sx={{
-                    borderLeft: "2px solid #E9EBF0",
-                    transform: "translate(45px, -10px)",
-                  }}
-                ></Grid>
-                <Grid item sm={11}>
-                  {user.replies
-                    .sort((a, b) => {
-                      return a.id - b.id;
-                    })
-                    .map((reply) => (
-                      <CommentCard
-                        removeCommentHandler={removeReplyHandler}
-                        currentUser={currentUser}
-                        user={reply}
-                        increaseScore={increaseScoreReply}
-                        decreaseScore={decreaseScoreReply}
-                        addCommentHandler={addCommentHandler}
-                        addReplyHandler={addReplyHandler}
-                        editReplyHandler={editReplyHandler}
-                        mainOrSub="sub"
-                        key={`reply${reply.id}`}
-                      />
-                    ))}
+    <>
+      <Container maxWidth="md" sx={{ marginTop: "64px" }}>
+        {comments
+          .sort((a, b) => {
+            return b.score - a.score;
+          })
+          .map((user) => (
+            <div key={user.id}>
+              <CommentCard
+                // removeCommentHandler={removeCommentHandler}
+                currentUser={currentUser}
+                user={user}
+                increaseScore={increaseScore}
+                decreaseScore={decreaseScore}
+                addCommentHandler={addCommentHandler}
+                addReplyHandler={addReplyHandler}
+                editCommentHandler={editCommentHandler}
+                editReplyHandler={editReplyHandler}
+                mainOrSub="main"
+                modalToggler={modalToggler}
+              />
+              {user.replies.length ? (
+                <Grid container>
+                  <Grid
+                    item
+                    xs={1}
+                    sx={{
+                      borderLeft: "2px solid #E9EBF0",
+                      transform: "translate(50%, -10px)",
+                    }}
+                  ></Grid>
+                  <Grid item xs={11}>
+                    {user.replies
+                      .sort((a, b) => {
+                        return a.id - b.id;
+                      })
+                      .map((reply) => (
+                        <CommentCard
+                          // removeCommentHandler={removeReplyHandler}
+                          currentUser={currentUser}
+                          user={reply}
+                          increaseScore={increaseScoreReply}
+                          decreaseScore={decreaseScoreReply}
+                          addCommentHandler={addCommentHandler}
+                          addReplyHandler={addReplyHandler}
+                          editReplyHandler={editReplyHandler}
+                          modalToggler={modalToggler}
+                          mainOrSub="sub"
+                          key={`reply${reply.id}`}
+                        />
+                      ))}
+                  </Grid>
                 </Grid>
-              </Grid>
-            ) : null}
-          </div>
-        ))}
+              ) : null}
+            </div>
+          ))}
 
-      <Reply
-        user={currentUser}
-        addHandler={addCommentHandler}
-        sendReply="Send"
-      />
-      <footer>
-        Challenge by &nbsp;
-        <a
-          href="https://www.frontendmentor.io?ref=challenge"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Frontend Mentor
-        </a>
-        . Coded by &nbsp;
-        <a href="https://seidelmatt.com/" target="_blank" rel="noreferrer">
-          Matt Seidel
-        </a>
-        .
-      </footer>
-    </Container>
+        <Reply
+          user={currentUser}
+          addHandler={addCommentHandler}
+          sendReply="Send"
+        />
+        <footer>
+          Challenge by &nbsp;
+          <a
+            href="https://www.frontendmentor.io?ref=challenge"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Frontend Mentor
+          </a>
+          . Coded by &nbsp;
+          <a href="https://seidelmatt.com/" target="_blank" rel="noreferrer">
+            Matt Seidel
+          </a>
+          .
+        </footer>
+      </Container>
+      <Modal
+        open={modalOpen}
+        onClose={modalToggler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <ModalBox>
+          <h2>Delete comment</h2>
+          <Grid container item xs={11}>
+            <p>
+              Are you sure you want to delete this comment? This will remove the
+              comment and can’t be undone.
+            </p>
+          </Grid>
+
+          <Grid container columnSpacing={2}>
+            <Grid item container justifyContent="center" xs={6}>
+              <ModalCancelButton onClick={modalToggler}>
+                No, cancel
+              </ModalCancelButton>
+            </Grid>
+            <Grid item container justifyContent="center" xs={6}>
+              <ModalDeleteButton
+                onClick={() => {
+                  replyTo
+                    ? removeReplyHandler(deleteId)
+                    : removeCommentHandler(deleteId);
+                  modalToggler();
+                }}
+              >
+                yes, delete
+              </ModalDeleteButton>
+            </Grid>
+          </Grid>
+        </ModalBox>
+      </Modal>
+    </>
   );
 }
 
