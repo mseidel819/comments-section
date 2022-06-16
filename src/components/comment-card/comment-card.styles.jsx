@@ -39,6 +39,7 @@ export const ReplyButton = styled(Button)({
   fontFamily: "Rubik",
   fontStyle: "normal",
   textTransform: "none",
+  color: "#5357B6",
 
   "&:hover": {
     color: "#C5C6EF",
@@ -87,4 +88,9 @@ export const StyledTextBox = styled(Box)({
   "@media (max-width:600px)": {
     minWidth: "100px",
   },
+});
+
+export const StyledTagSpan = styled("span")({
+  color: "#5357B6",
+  fontWeight: "500",
 });

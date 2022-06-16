@@ -21,6 +21,7 @@ import {
   YouSpan,
   StyledTextBox,
   SendButton,
+  StyledTagSpan,
 } from "./comment-card.styles";
 
 const CommentCard = ({
@@ -153,7 +154,9 @@ const CommentCard = ({
               ) : (
                 <StyledTextBox>
                   <p>
-                    {user.replyingTo && <span>@{user.replyingTo}&nbsp;</span>}
+                    {user.replyingTo && (
+                      <StyledTagSpan>@{user.replyingTo}&nbsp;</StyledTagSpan>
+                    )}
                     {user.content}
                   </p>
                 </StyledTextBox>
