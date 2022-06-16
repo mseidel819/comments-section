@@ -342,6 +342,3 @@ function App() {
 }
 
 export default App;
-
-///things: svg hover colors
-///delete modal confirm

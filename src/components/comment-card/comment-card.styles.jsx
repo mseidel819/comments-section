@@ -43,7 +43,6 @@ export const ReplyButton = styled(Button)({
   "&:hover": {
     color: "#C5C6EF",
     backgroundColor: "white",
-    fill: "#C5C6EF",
   },
 });
 
@@ -59,7 +58,8 @@ export const DeleteButton = styled(Button)({
   "&:hover": {
     color: "#FFB8BB",
     backgroundColor: "white",
-    // fill: "#C5C6EF",
+
+    fill: "#C5C6EF",
   },
 });
 
